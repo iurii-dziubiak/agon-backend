@@ -18,4 +18,8 @@ public class Player {
 
     @ManyToMany(mappedBy = "players")
     private List<Tournament> tournaments;
+
+    public void addTournament(Tournament tournament) {
+        tournaments.add(tournament);
+    }
 }

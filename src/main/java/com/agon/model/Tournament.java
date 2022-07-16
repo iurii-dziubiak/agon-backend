@@ -11,21 +11,20 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "tournaments")
 public class Tournament {
     @Id
-    @Column(name="")
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
     private String title;
+    private String game;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
-            name = "player_tournament",
-            joinColumns = { @JoinColumn(name = "player_id") },
-            inverseJoinColumns = { @JoinColumn(name = "tournament_id") }
+            name = "tournament_player",
+            joinColumns = { @JoinColumn(name = "tournament_id") },
+            inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
     private List<Player> players;
 }
