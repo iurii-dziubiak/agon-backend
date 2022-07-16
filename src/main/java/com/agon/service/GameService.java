@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GameService {
-    private final GameRepository gameRepository;
+    private final GameRepository repository;
 
     public List<Game> getAll() {
-        return gameRepository.findAll();
+        return repository.findAll();
     }
 }
