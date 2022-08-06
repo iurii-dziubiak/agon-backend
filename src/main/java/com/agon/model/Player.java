@@ -3,21 +3,24 @@ package com.agon.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity(name = "players")
 public class Player {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private int id;
-
     private String nickName;
 
     @ManyToMany(mappedBy = "players")
-    private List<Tournament> tournaments;
+    private final List<Tournament> tournaments;
+
+    public Player () {
+        this.tournaments = new ArrayList<>();
+    }
 
     public void addTournament(Tournament tournament) {
         tournaments.add(tournament);

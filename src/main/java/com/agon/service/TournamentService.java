@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 public class TournamentService {
     private final TournamentRepository repository;
 
+    public Tournament get(int id) {
+        return repository.findById(id).orElseThrow();
+    }
     public void saveTournament(Tournament tournament) {
         repository.save(tournament);
     }

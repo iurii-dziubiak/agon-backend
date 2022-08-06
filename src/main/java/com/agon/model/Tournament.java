@@ -1,6 +1,5 @@
 package com.agon.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +13,8 @@ import java.util.List;
 @Entity(name = "tournaments")
 public class Tournament {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-
     private String title;
     private String game;
 
