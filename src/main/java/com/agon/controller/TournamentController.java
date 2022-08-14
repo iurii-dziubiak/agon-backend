@@ -23,21 +23,22 @@ public class TournamentController {
 
     @GetMapping("/tournament/{id}")
     ResponseEntity<?> getTournament(@PathVariable Integer id) {
-        Tournament tournament = tournamentService.get(id);
+        Tournament tournament = tournamentService.get(id).shuffle();
         return ResponseEntity.ok().body(TournamentDTO.fromTournament(tournament));
-    }
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoSuchElementException.class)
-    public void handleProductCreateException(NoSuchElementException e) {
-        log.error(e.getMessage());
     }
 
     @PostMapping("/tournament")
     public ResponseEntity setNewTournament(@RequestBody TournamentDTO tDTO) throws URISyntaxException {
         Tournament tournament = tDTO.toTournament();
-        tournamentService.saveTournament(tournament);
-        tournament.getPlayers().forEach(playerService::savePlayer);
+        tournamentService.save(tournament);
+        tournament.getPlayers().forEach(playerService::save);
         tDTO.setId(tournament.getId());
         return ResponseEntity.created(new URI("http://localhost:8088/api/tournament/"+tDTO.getId())).body(tDTO);
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchElementException.class)
+    public void handleProductCreateException(NoSuchElementException e) {
+        log.error(e.getMessage());
     }
 }

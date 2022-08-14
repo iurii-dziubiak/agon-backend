@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class PlayerService {
     private final PlayerRepository repository;
 
-    public void savePlayer(Player player) {
+    public void save(Player player) {
         repository.save(player);
     }
 }

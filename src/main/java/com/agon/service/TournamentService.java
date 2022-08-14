@@ -13,7 +13,7 @@ public class TournamentService {
     public Tournament get(int id) {
         return repository.findById(id).orElseThrow();
     }
-    public void saveTournament(Tournament tournament) {
-        repository.save(tournament);
+    public Tournament save(Tournament tournament) {
+        return repository.save(tournament);
     }
 }
