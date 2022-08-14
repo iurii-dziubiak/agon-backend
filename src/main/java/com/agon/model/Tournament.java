@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -25,4 +27,14 @@ public class Tournament {
             inverseJoinColumns = { @JoinColumn(name = "player_id") }
     )
     private List<Player> players;
+
+    public Tournament shuffle() {
+        if (players == null) {
+            throw new IllegalStateException();
+        }
+        players = players.stream()
+                .sorted((player1, player2) -> new Random().nextInt(3) - 1)
+                .collect(Collectors.toList());
+        return this;
+    }
 }
