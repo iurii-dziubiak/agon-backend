@@ -1,6 +1,7 @@
 package com.agon.controller;
 
-import com.agon.dto.TournamentDTO;
+import com.agon.dto.InitTournamentDTO;
+import com.agon.dto.OngoingTournamentDTO;
 import com.agon.model.Tournament;
 import com.agon.service.PlayerService;
 import com.agon.service.TournamentService;
@@ -22,18 +23,19 @@ public class TournamentController {
     private final PlayerService playerService;
 
     @GetMapping("/tournament/{id}")
-    ResponseEntity<?> getTournament(@PathVariable Integer id) {
-        Tournament tournament = tournamentService.get(id).shuffle();
-        return ResponseEntity.ok().body(TournamentDTO.fromTournament(tournament));
+    public ResponseEntity<?> getTournament(@PathVariable Integer id) {
+        Tournament tournament = tournamentService.get(id);
+        return ResponseEntity.ok().body(OngoingTournamentDTO.fromTournament(tournament));
     }
 
     @PostMapping("/tournament")
-    public ResponseEntity setNewTournament(@RequestBody TournamentDTO tDTO) throws URISyntaxException {
-        Tournament tournament = tDTO.toTournament();
+    public ResponseEntity<?> createTournament(@RequestBody InitTournamentDTO initTournamentDTO) throws URISyntaxException {
+        Tournament tournament = initTournamentDTO.toTournament().shuffle();
         tournamentService.save(tournament);
         tournament.getPlayers().forEach(playerService::save);
-        tDTO.setId(tournament.getId());
-        return ResponseEntity.created(new URI("http://localhost:8088/api/tournament/"+tDTO.getId())).body(tDTO);
+        initTournamentDTO.setId(tournament.getId());
+        return ResponseEntity.created(new URI("http://localhost:8088/api/tournament/"+initTournamentDTO.getId()))
+                .body(initTournamentDTO);
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
