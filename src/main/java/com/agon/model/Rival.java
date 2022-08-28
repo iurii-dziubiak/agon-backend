@@ -1,11 +1,17 @@
 package com.agon.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@RequiredArgsConstructor
+@Setter
+@NoArgsConstructor
 public class Rival {
-    private final String name;
-    private final boolean isWon = false;
+    private String name;
+    private boolean won = false;
+
+    public Rival(String name) {
+        this.name = name;
+    }
 }

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class Tournament {
         if (players == null) {
             throw new IllegalStateException();
         }
+        //FIXME Collections.shuffle(players);
         players = players.stream()
                 .sorted((player1, player2) -> new Random().nextInt(3) - 1)
                 .collect(Collectors.toList());

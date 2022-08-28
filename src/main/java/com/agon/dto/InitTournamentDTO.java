@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 public class InitTournamentDTO {
     private Integer id;
-    private  String title;
-    private  String game;
-    private  List<String> players;
+    private String title;
+    private String game;
+    private List<String> players;
 
     public Tournament toTournament() {
         Tournament tournament = new Tournament();

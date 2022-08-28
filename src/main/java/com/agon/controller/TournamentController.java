@@ -2,6 +2,7 @@ package com.agon.controller;
 
 import com.agon.dto.InitTournamentDTO;
 import com.agon.dto.OngoingTournamentDTO;
+import com.agon.dto.SecondRoundDTO;
 import com.agon.model.Tournament;
 import com.agon.service.PlayerService;
 import com.agon.service.TournamentService;
@@ -36,6 +37,12 @@ public class TournamentController {
         initTournamentDTO.setId(tournament.getId());
         return ResponseEntity.created(new URI("http://localhost:8088/api/tournament/"+initTournamentDTO.getId()))
                 .body(initTournamentDTO);
+    }
+
+    @PostMapping("/second-round")
+    public ResponseEntity<?> createSecondRound(@RequestBody SecondRoundDTO secondRoundDTO) throws URISyntaxException {
+        secondRoundDTO.setChallenges();
+        return ResponseEntity.ok().body(secondRoundDTO);
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
