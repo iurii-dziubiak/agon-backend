@@ -2,7 +2,7 @@ package com.agon.controller;
 
 import com.agon.dto.InitTournamentDTO;
 import com.agon.dto.OngoingTournamentDTO;
-import com.agon.dto.SecondRoundDTO;
+import com.agon.dto.RoundDTO;
 import com.agon.model.Tournament;
 import com.agon.service.PlayerService;
 import com.agon.service.TournamentService;
@@ -25,7 +25,7 @@ public class TournamentController {
 
     @GetMapping("/tournament/{id}")
     public ResponseEntity<?> getTournament(@PathVariable Integer id) {
-        Tournament tournament = tournamentService.get(id);
+        Tournament tournament = tournamentService.get(id); //TODO: service should return DTO
         return ResponseEntity.ok().body(OngoingTournamentDTO.fromTournament(tournament));
     }
 
@@ -39,10 +39,10 @@ public class TournamentController {
                 .body(initTournamentDTO);
     }
 
-    @PostMapping("/second-round")
-    public ResponseEntity<?> createSecondRound(@RequestBody SecondRoundDTO secondRoundDTO) throws URISyntaxException {
-        secondRoundDTO.setChallenges();
-        return ResponseEntity.ok().body(secondRoundDTO);
+    @PostMapping("/next-round")
+    public ResponseEntity<?> createSecondRound(@RequestBody RoundDTO roundDTO) throws URISyntaxException {
+        roundDTO.setChallenges();
+        return ResponseEntity.ok().body(roundDTO);
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -50,4 +50,6 @@ public class TournamentController {
     public void handleProductCreateException(NoSuchElementException e) {
         log.error(e.getMessage());
     }
+
+//    TODO: NOTES => field type Version for updates, @LastModifiedDate/By, @CreatedBy, @CreateDate, JpaAuditing
 }

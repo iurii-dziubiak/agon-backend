@@ -9,7 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Rival {
     private String name;
-    private boolean won = false;
+    private final boolean won = false;
+    private final boolean lose = false;
 
     public Rival(String name) {
         this.name = name;

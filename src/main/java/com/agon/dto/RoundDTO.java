@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SecondRoundDTO {
+public class RoundDTO {
     private List<Rival> rivals;
     private List<Challenge> challenges = new ArrayList<>();
 
