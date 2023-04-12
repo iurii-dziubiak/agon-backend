@@ -5,7 +5,6 @@ import com.agon.model.Player;
 import com.agon.model.Tournament;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,7 @@ public class OngoingTournamentDTO {
                 .id(tournament.getId())
                 .title(tournament.getTitle())
                 .game(tournament.getGame())
-                .challenges(tournament.getPlayers().stream().map(Player::getNickName).collect(Collectors.toList()))
+                .challenges(tournament.getPlayers().stream().map(Player::getNickname).collect(Collectors.toList()))
                 .build();
     }
 
@@ -37,7 +36,7 @@ public class OngoingTournamentDTO {
         private Integer id;
         private String title;
         private String game;
-        private final List<Challenge> challenges = new ArrayList<>();
+        private List<Challenge> challenges;
 
         public TournamentDTOBuilder id(int id) {
             this.id = id;
@@ -51,18 +50,8 @@ public class OngoingTournamentDTO {
             this.game = game;
             return this;
         }
-        public TournamentDTOBuilder challenges(List<String> players) {
-            ArrayList<String> tempRivals = new ArrayList<>();
-            for (String player: players) {
-                if (tempRivals.size() < 2) {
-                    tempRivals.add(player);
-                }
-                if (tempRivals.size() == 2) {
-                    Challenge tempChallenge = new Challenge(tempRivals.get(0), tempRivals.get(1));
-                    challenges.add(tempChallenge);
-                    tempRivals.clear();
-                }
-            }
+        public TournamentDTOBuilder challenges(List<String> playerNames) {
+            this.challenges = new RoundDTO.RoundDTOBuilder().challenges(playerNames).build().getChallenges();
             return this;
         }
         public OngoingTournamentDTO build() {

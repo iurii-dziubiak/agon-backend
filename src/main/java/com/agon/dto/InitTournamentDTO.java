@@ -17,18 +17,17 @@ public class InitTournamentDTO {
 
     public Tournament toTournament() {
         Tournament tournament = new Tournament();
-        tournament.setTitle(getTitle());
-        tournament.setGame(getGame());
 
-        List<Player> players = new ArrayList<>();
-        getPlayers().forEach(player -> {
-            Player tempPlayer = new Player();
-            tempPlayer.setNickName(player);
+        List<Player> playerList = new ArrayList<>();
+        this.players.forEach(playerName -> {
+            Player tempPlayer = new Player(playerName);
             tempPlayer.addTournament(tournament);
-            players.add(tempPlayer);
+            playerList.add(tempPlayer);
         });
-        tournament.setPlayers(players);
 
+        tournament.setTitle(this.title);
+        tournament.setGame(this.game);
+        tournament.setPlayers(playerList);
         return tournament;
     }
 }

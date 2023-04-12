@@ -19,7 +19,7 @@ public class CorsConfig {
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST")); //Add if needed "PUT", "DELETE".
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

@@ -1,5 +1,6 @@
 package com.agon.model;
 
+import com.agon.dto.PodiumDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,8 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,6 +19,9 @@ public class Tournament {
     private int id;
     private String title;
     private String game;
+    private String firstPlace;
+    private String secondPlace;
+    private String thirdPlace;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -29,14 +31,17 @@ public class Tournament {
     )
     private List<Player> players;
 
-    public Tournament shuffle() {
+    public void shuffle() {
         if (players == null) {
             throw new IllegalStateException();
         }
-        //FIXME Collections.shuffle(players);
-        players = players.stream()
-                .sorted((player1, player2) -> new Random().nextInt(3) - 1)
-                .collect(Collectors.toList());
-        return this;
+
+        Collections.shuffle(players);
+    }
+
+    public void setPodium(PodiumDTO podiumDTO) {
+        this.firstPlace = podiumDTO.getFirst();
+        this.secondPlace = podiumDTO.getSecond();
+        this.thirdPlace = podiumDTO.getThird();
     }
 }

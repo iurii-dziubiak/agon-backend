@@ -1,10 +1,10 @@
 # Agon Java App
 
 ## ⭐ Story ⭐
-Agon comes from the Greek word agōn, which is translated with a number of meanings, among them "contest," "competition 
+Agon comes from the Greek word `agōn`, which is translated with a number of meanings, among them "contest," "competition 
 at games," and "gathering".
 
-# About project
+## About project
 TOURNAMENT MANAGEMENT SOFTWARE
 
 Simple end-to-end solution to create and manage your tournaments, starting with participation, brackets and ladder 

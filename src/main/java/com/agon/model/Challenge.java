@@ -14,8 +14,4 @@ public class Challenge {
     public Challenge(String rival1, String rival2) {
         rivals = new ArrayList<>(Arrays.asList(new Rival(rival1), new Rival(rival2)));
     }
-
-    public Challenge(Rival rival1, Rival rival2) {
-        this.rivals = Arrays.asList(rival1,rival2);
-    }
 }

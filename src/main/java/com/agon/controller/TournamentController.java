@@ -1,8 +1,6 @@
 package com.agon.controller;
 
-import com.agon.dto.InitTournamentDTO;
-import com.agon.dto.OngoingTournamentDTO;
-import com.agon.dto.RoundDTO;
+import com.agon.dto.*;
 import com.agon.model.Tournament;
 import com.agon.service.PlayerService;
 import com.agon.service.TournamentService;
@@ -23,26 +21,37 @@ public class TournamentController {
     private final TournamentService tournamentService;
     private final PlayerService playerService;
 
-    @GetMapping("/tournament/{id}")
-    public ResponseEntity<?> getTournament(@PathVariable Integer id) {
-        Tournament tournament = tournamentService.get(id); //TODO: service should return DTO
-        return ResponseEntity.ok().body(OngoingTournamentDTO.fromTournament(tournament));
+    @GetMapping("/ongoing/tournament/{id}")
+    public ResponseEntity<?> getOngoingTournament(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(OngoingTournamentDTO.fromTournament(tournamentService.get(id)));
     }
 
     @PostMapping("/tournament")
     public ResponseEntity<?> createTournament(@RequestBody InitTournamentDTO initTournamentDTO) throws URISyntaxException {
-        Tournament tournament = initTournamentDTO.toTournament().shuffle();
+        Tournament tournament = initTournamentDTO.toTournament();
         tournamentService.save(tournament);
-        tournament.getPlayers().forEach(playerService::save);
+        tournament.getPlayers().forEach(playerService::save); //TODO refactor?
         initTournamentDTO.setId(tournament.getId());
         return ResponseEntity.created(new URI("http://localhost:8088/api/tournament/"+initTournamentDTO.getId()))
                 .body(initTournamentDTO);
     }
 
     @PostMapping("/next-round")
-    public ResponseEntity<?> createSecondRound(@RequestBody RoundDTO roundDTO) throws URISyntaxException {
-        roundDTO.setChallenges();
-        return ResponseEntity.ok().body(roundDTO);
+    public ResponseEntity<?> createNextRound(@RequestBody PreRoundDTO preRoundDTO) {
+        return ResponseEntity.ok().body(RoundDTO.from(preRoundDTO));
+    }
+
+    @PostMapping("/podium")
+    public ResponseEntity<?> setPodium(@RequestBody PodiumDTO podiumDTO) {
+        Tournament tournament = tournamentService.get(Integer.parseInt(podiumDTO.getId()));
+        tournament.setPodium(podiumDTO);
+        tournamentService.save(tournament);
+        return ResponseEntity.ok().body(podiumDTO.getId());
+    }
+
+    @GetMapping("/complete/tournament/{id}")
+    public ResponseEntity<?> getCompleteTournament(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(CompleteTournamentDTO.fromTournament(tournamentService.get(id)));
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -51,5 +60,4 @@ public class TournamentController {
         log.error(e.getMessage());
     }
 
-//    TODO: NOTES => field type Version for updates, @LastModifiedDate/By, @CreatedBy, @CreateDate, JpaAuditing
 }
