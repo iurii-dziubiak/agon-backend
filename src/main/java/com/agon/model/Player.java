@@ -13,12 +13,17 @@ public class Player {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private int id;
-    private String nickName;
+    private String nickname;
 
     @ManyToMany(mappedBy = "players")
     private final List<Tournament> tournaments;
 
     public Player () {
+        this.tournaments = new ArrayList<>();
+    }
+
+    public Player(String nickname) {
+        this.nickname = nickname;
         this.tournaments = new ArrayList<>();
     }
 

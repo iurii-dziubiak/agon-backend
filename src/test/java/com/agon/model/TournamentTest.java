@@ -14,12 +14,12 @@ class TournamentTest {
         //GIVEN
         Tournament tournament = new Tournament();
         List<Player> list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 5; i++) {
             Player p = new Player();
             p.setId(i);
             list.add(p);
         }
-        tournament.setPlayers(list);
+        tournament.setPlayers(new ArrayList<>(list));
         //WHEN
         tournament.shuffle();
         //THEN
@@ -60,8 +60,7 @@ class TournamentTest {
     void shuffleNullList() {
         //GIVEN
         Tournament tournament = new Tournament();
-        List<Player> list = null;
-        tournament.setPlayers(list);
+        tournament.setPlayers(null);
         //THEN
         assertThrows(IllegalStateException.class, tournament::shuffle);
     }

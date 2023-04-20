@@ -10,6 +10,7 @@ import lombok.Setter;
 public class Rival {
     private String name;
     private boolean won = false;
+    private boolean lose = false;
 
     public Rival(String name) {
         this.name = name;
