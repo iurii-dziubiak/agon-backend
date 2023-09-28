@@ -19,7 +19,7 @@ public class InitTournamentDTO {
         Tournament tournament = new Tournament();
 
         List<Player> playerList = new ArrayList<>();
-        this.players.forEach(playerName -> {
+        this.players.forEach(playerName -> { //TODO refactor
             Player tempPlayer = new Player(playerName);
             tempPlayer.addTournament(tournament);
             playerList.add(tempPlayer);
